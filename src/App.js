@@ -18,9 +18,6 @@ class App extends Component {
           <h1 className="title">Airline Routes</h1>
         </header>
         <section>
-          <p>
-            Welcome to the app!
-          </p>
           <div>
             <table className='routes-table'>
               <thead>
@@ -46,13 +43,13 @@ class Table extends Component {
     return (
       <tr>
         <td>
-          {this.props.airline}
+          {DATA.getAirlineById(this.props.airline).name}
         </td>
         <td>
-          {this.props.src}
+          {DATA.getAirportByCode(this.props.src).name}
         </td>
         <td>
-          {this.props.dest}
+          {DATA.getAirportByCode(this.props.dest).name}
         </td>
       </tr>
     );
