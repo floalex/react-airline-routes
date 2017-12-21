@@ -47,7 +47,8 @@ select {
 }
 
 .pagination a {
-  margin: 0 .5em;
+  margin: 0 .1em;
+  text-decoration: underline;
 }
 
 svg circle:hover {

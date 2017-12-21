@@ -34,6 +34,7 @@ class App extends Component {
             columns={columns} 
             rows={rows} 
             format={this.formatValue}
+            perPage={25}
           />
         </section>
       </div>
