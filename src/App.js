@@ -9,6 +9,7 @@ import Select from './components/Select';
 class App extends Component {
   defaultState = {
     airline: "all",
+    airport: "all"
   }
   
   constructor(props) {
@@ -32,6 +33,10 @@ class App extends Component {
     this.setState({airline: value});
   }
   
+  airportSelected = (value) => {
+    this.setState({airport: value});
+  }
+  
   render() {
     const columns = [
       {name: 'Airline', property: 'airline'},
@@ -39,13 +44,34 @@ class App extends Component {
       {name: 'Destination Airport', property: 'dest'},
     ];
     
-    const filteredRoutes = DATA.routes.filter((route) => {
+    const currentSelectedAirlines = (route) => {
       return this.state.airline === "all" || route.airline === this.state.airline;
+    };
+    
+    const currentSelecedAirports = (route) => {
+      return this.state.airport === "all" || route.src === this.state.airport || route.dest === this.state.airport;
+    };
+    
+    const filteredRoutes = DATA.routes.filter((route) => {
+      return currentSelectedAirlines(route) && currentSelecedAirports(route);
     });
     
-    const filteredAirlines = DATA.airlines.filter((airline) => {
-      const active = filteredRoutes.some((route) => route.airline === airline.id );
+    const filteredByAirlines = DATA.routes.filter((route) => {
+      return currentSelectedAirlines(route);
+    });
+    
+    const filteredByAirports = DATA.routes.filter((route) => {
+      return currentSelecedAirports(route);
+    });
+    
+    const filteredAirlines = DATA.airlines.map((airline) => {
+      const active = filteredByAirports.some((route) => route.airline === airline.id );
       return Object.assign({}, airline, {active});
+    });
+    
+    const filteredAirports = DATA.airports.map((airport) => {
+      const active = filteredByAirlines.some((route) => route.src === airport.code || route.dest === airport.code );
+      return Object.assign({}, airport, {active});
     });
     
     return (
@@ -58,12 +84,19 @@ class App extends Component {
             Show routes on
             <Select 
               options={filteredAirlines} 
-              valueKey="id" titleKey="name"
+              valueKey="id" titleKey="name" activeKey="active"
               allTitle="All Airlines" 
               value={this.state.airline}
               onSelect={this.airlineSelected} 
             />
-            flying
+            flying in or out of
+            <Select 
+              options={filteredAirports} 
+              valueKey="code" titleKey="name" activeKey="active"
+              allTitle="All Airports" 
+              value={this.state.airport}
+              onSelect={this.airportSelected} 
+            />
           </p>
             
           <Table 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class Select extends Component {
+
   handleChange = (event) => {
     event.preventDefault();
     this.props.onSelect(event.target.value);
@@ -9,7 +10,8 @@ class Select extends Component {
   render() {
     let options = this.props.options.map((option) => {
       const value = option[this.props.valueKey];
-      return <option key={value} value={value}>
+      const enabled = option[this.props.activeKey];
+      return <option key={value} value={value} disabled={!enabled}>
         { option[this.props.titleKey] }
       </option>;
     });
