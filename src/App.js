@@ -37,6 +37,10 @@ class App extends Component {
     this.setState({airport: value});
   }
   
+  clearFilters = () => {
+    this.setState(this.defaultState);
+  }
+  
   render() {
     const columns = [
       {name: 'Airline', property: 'airline'},
@@ -60,6 +64,8 @@ class App extends Component {
       const active = filteredRoutes.some((route) => route.airline === airline.id );
       return Object.assign({}, airline, {active});
     });
+    
+    const defaultSelected = this.state.airline === this.defaultState.airline && this.state.airport === this.defaultState.airport;
     
     const filteredAirports = DATA.airports.map((airport) => {
       const active = filteredRoutes.some((route) => route.src === airport.code || route.dest === airport.code );
@@ -89,6 +95,7 @@ class App extends Component {
               value={this.state.airport}
               onSelect={this.airportSelected} 
             />
+            <button onClick={this.clearFilters} disabled={defaultSelected}>Show All Routes</button>
           </p>
             
           <Table 
