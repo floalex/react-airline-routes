@@ -66,12 +66,15 @@ class App extends Component {
       return Object.assign({}, airline, {active});
     });
     
-    const defaultSelected = this.state.airline === this.defaultState.airline && this.state.airport === this.defaultState.airport;
-    
-    const filteredAirports = DATA.airports.map((airport) => {
+    const sortAirportsByName = DATA.airports.sort((a, b) => (
+      (a.name).localeCompare(b.name)
+    ));    
+    const filteredAirports = sortAirportsByName.map((airport) => {
       const active = filteredRoutes.some((route) => route.src === airport.code || route.dest === airport.code );
       return Object.assign({}, airport, {active});
     });
+    
+    const defaultSelected = this.state.airline === this.defaultState.airline && this.state.airport === this.defaultState.airport;
     
     return (
       <div className="app">
