@@ -82,7 +82,11 @@ class App extends Component {
           <h1 className="title">Airline Routes</h1>
         </header>
         <section>
-          <Map routes={filteredRoutes} />
+          <Map routes={filteredRoutes}
+               valueKey="code"
+               value={this.state.airport} 
+               onSelect={this.airportSelected}
+          />
           
           <p>
             Show routes on
