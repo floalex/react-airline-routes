@@ -4,6 +4,7 @@ import './App.css';
 import DATA from './data';
 
 import Table from './components/Table';
+import Select from './components/Select';
 
 class App extends Component {
   defaultState = {
@@ -31,11 +32,6 @@ class App extends Component {
     this.setState({airline: value});
   }
   
-  handleChange = (event) => {
-    event.preventDefault();
-    this.airlineSelected(event.target.value);
-  }
-  
   render() {
     const columns = [
       {name: 'Airline', property: 'airline'},
@@ -52,14 +48,6 @@ class App extends Component {
       return Object.assign({}, airline, {active});
     });
     
-    let options = filteredAirlines.map((option) => {
-      const value = option["id"];
-      return <option key={value} value={value}>
-        { option["name"] }
-      </option>;
-    });
-    options.unshift(<option key="all" value="all">All Airlines</option>);
-    
     return (
       <div className="app">
         <header className="header">
@@ -68,9 +56,13 @@ class App extends Component {
         <section>
           <p>
             Show routes on
-            <select value={this.state.value} onChange={this.handleChange}>
-              { options }
-            </select>
+            <Select 
+              options={filteredAirlines} 
+              valueKey="id" titleKey="name"
+              allTitle="All Airlines" 
+              value={this.state.airline}
+              onSelect={this.airlineSelected} 
+            />
             flying
           </p>
             
