@@ -56,21 +56,13 @@ class App extends Component {
       return currentSelectedAirlines(route) && currentSelecedAirports(route);
     });
     
-    const filteredByAirlines = DATA.routes.filter((route) => {
-      return currentSelectedAirlines(route);
-    });
-    
-    const filteredByAirports = DATA.routes.filter((route) => {
-      return currentSelecedAirports(route);
-    });
-    
     const filteredAirlines = DATA.airlines.map((airline) => {
-      const active = filteredByAirports.some((route) => route.airline === airline.id );
+      const active = filteredRoutes.some((route) => route.airline === airline.id );
       return Object.assign({}, airline, {active});
     });
     
     const filteredAirports = DATA.airports.map((airport) => {
-      const active = filteredByAirlines.some((route) => route.src === airport.code || route.dest === airport.code );
+      const active = filteredRoutes.some((route) => route.src === airport.code || route.dest === airport.code );
       return Object.assign({}, airport, {active});
     });
     
