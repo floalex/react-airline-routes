@@ -23,6 +23,10 @@ class Table extends Component {
     this.setState({page: i});
   }
   
+  componentWillReceiveProps(nextProps) {
+    this.setState({page: 0});
+  }
+  
   render() {
     const headerCells = this.props.columns.map((col) => { 
       return <th key={col.name}>{col.name}</th>;

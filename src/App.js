@@ -42,6 +42,18 @@ class App extends Component {
     this.setState(this.defaultState);
   }
   
+  currentSelectedAirlines = (route) => {
+    return this.state.airline === "all" || route.airline === this.state.airline;
+  };
+    
+  currentSelecedAirports = (route) => {
+    return this.state.airport === "all" || route.src === this.state.airport || route.dest === this.state.airport;
+  };
+    
+  sortAirportsByName = DATA.airports.sort((a, b) => (
+    (a.name).localeCompare(b.name)
+  ));    
+  
   render() {
     const columns = [
       {name: 'Airline', property: 'airline'},
@@ -49,16 +61,8 @@ class App extends Component {
       {name: 'Destination Airport', property: 'dest'},
     ];
     
-    const currentSelectedAirlines = (route) => {
-      return this.state.airline === "all" || route.airline === this.state.airline;
-    };
-    
-    const currentSelecedAirports = (route) => {
-      return this.state.airport === "all" || route.src === this.state.airport || route.dest === this.state.airport;
-    };
-    
     const filteredRoutes = DATA.routes.filter((route) => {
-      return currentSelectedAirlines(route) && currentSelecedAirports(route);
+      return this.currentSelectedAirlines(route) && this.currentSelecedAirports(route);
     });
     
     const filteredAirlines = DATA.airlines.map((airline) => {
@@ -66,10 +70,7 @@ class App extends Component {
       return Object.assign({}, airline, {active});
     });
     
-    const sortAirportsByName = DATA.airports.sort((a, b) => (
-      (a.name).localeCompare(b.name)
-    ));    
-    const filteredAirports = sortAirportsByName.map((airport) => {
+    const filteredAirports = this.sortAirportsByName.map((airport) => {
       const active = filteredRoutes.some((route) => route.src === airport.code || route.dest === airport.code );
       return Object.assign({}, airport, {active});
     });
