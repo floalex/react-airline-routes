@@ -26,7 +26,7 @@ class App extends Component {
     }
   }
   
-  airlineSelected = (value) => {
+  handleairlineSelected = (value) => {
     if (value !== "all") {
       value = parseInt(value, 10);
     }
@@ -34,7 +34,7 @@ class App extends Component {
     this.setState({airline: value});
   }
   
-  airportSelected = (value) => {
+  handleairportSelected = (value) => {
     this.setState({airport: value});
   }
   
@@ -86,7 +86,7 @@ class App extends Component {
           <Map routes={filteredRoutes}
                valueKey="code"
                value={this.state.airport} 
-               onSelect={this.airportSelected}
+               onSelect={this.handleairportSelected}
           />
           
           <p>
@@ -96,7 +96,7 @@ class App extends Component {
               valueKey="id" titleKey="name" activeKey="active"
               allTitle="All Airlines" 
               value={this.state.airline}
-              onSelect={this.airlineSelected} 
+              onSelect={this.handleairlineSelected} 
             />
             flying in or out of
             <Select 
@@ -104,7 +104,7 @@ class App extends Component {
               valueKey="code" titleKey="name" activeKey="active"
               allTitle="All Airports" 
               value={this.state.airport}
-              onSelect={this.airportSelected} 
+              onSelect={this.handleairportSelected} 
             />
             <button onClick={this.clearFilters} disabled={defaultSelected}>Show All Routes</button>
           </p>
